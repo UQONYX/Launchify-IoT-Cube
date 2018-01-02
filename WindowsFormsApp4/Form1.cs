@@ -13,6 +13,8 @@ using System.IO;
 using Microsoft.Win32;
 using System.Resources;
 using System.Reflection;
+using System.Threading;
+using System.IO.Ports;
 
 namespace WindowsFormsApp4
 {
@@ -22,7 +24,6 @@ namespace WindowsFormsApp4
         {
             InitializeComponent();
         }
-        
         private void button1_Click(object sender, EventArgs e)
         {
             //This function checks the available WIFI spots
@@ -34,8 +35,10 @@ namespace WindowsFormsApp4
         private void Form1_Load(object sender, EventArgs e)
         {
             //get and display WIFI to combobox when form loads
-            refreshWifi();
+            refreshWifi();         
+           
         }
+
         //This uploads to the CUBE
         private void button2_Click(object sender, EventArgs e)
         {
@@ -66,16 +69,15 @@ namespace WindowsFormsApp4
         //This updates and builds program.
         private void button3_Click(object sender, EventArgs e)
         {
-            
             //Notify the user where the cube will connect to
             MessageBox.Show("Cube will connect to WIFI: " + comboBox1.SelectedItem.ToString(), @"Cube Wifi");
             //File is going to add aREST library to the program in order to build
-            File.Copy(@"C:\Users\Uthma\Downloads\aREST-master\aREST-master\aREST.h", Properties.Settings.Default.ProjectPath + @"\lib\aREST\aREST.h", true);
-            String strFile = File.ReadAllText(@"C:\Users\Uthma\OneDrive\Documents\Visual Studio 2017\Projects\WindowsFormsApp4\WindowsFormsApp4\TextFile1.ino");
+            //File.Copy(@"C:\Users\Uthma\Downloads\aREST-master\aREST-master\aREST.h", Properties.Settings.Default.ProjectPath + @"\lib\aREST\aREST.h", true);
+            String strFile = FileFetcher.getContent("WindowsFormsApp4.TextFile1.ino");
             //Adds the information to the spots necessary
-            strFile = strFile.Replace("your_wifi_network_name", comboBox1.Text);
-            strFile = strFile.Replace("your_wifi_network_password", textBox1.Text);
-            File.WriteAllText(Properties.Settings.Default.ProjectPath + @"\src\main.ino", strFile);
+            strFile = strFile.Replace("yourwifihere", comboBox1.Text);
+            strFile = strFile.Replace("yourpasswordhere", textBox1.Text);
+            File.WriteAllText( Properties.Settings.Default.ProjectPath + @"\src\main.ino" , strFile);
             Properties.Settings.Default.IsCompiled = true;
         }
 
@@ -91,15 +93,17 @@ namespace WindowsFormsApp4
                     using (StreamWriter sw = new StreamWriter(batTest))
                     {
                        // sw.WriteLine(@"mkdir " + folderBrowserDialog1.SelectedPath);
-                        sw.WriteLine(@"cd " + folderBrowserDialog1.SelectedPath);
+                        sw.WriteLine("cd \"" + folderBrowserDialog1.SelectedPath + "\"");
                         //Initialize the platformio inside of the directory
                         sw.WriteLine("platformio init --board nodemcuv2");
                         //Navigate to lib folder and make the necessary aREST folder
-                        sw.WriteLine(@"cd " + folderBrowserDialog1.SelectedPath + @"\lib");
-                        sw.WriteLine("mkdir aREST");
+                        sw.WriteLine(@"platformio lib install 31");
+                        sw.WriteLine(@"platformio lib install 429");
+                        sw.WriteLine(@"platformio lib install 166");
+                        //sw.WriteLine("mkdir aREST Adafruit_BME280_Library Adafruit_Sensor-master");
                         //Add a MAIN file.. This may not be necessary as this part is being done in the compile program event
                         //TODO Reduce this redundancy 
-                        sw.WriteLine("cd " + folderBrowserDialog1.SelectedPath + @"\src");
+                        sw.WriteLine("cd \"" + folderBrowserDialog1.SelectedPath + "\"" + @"\src");
                         sw.WriteLine("abc > main.ino");
                     }
                     
@@ -205,5 +209,46 @@ namespace WindowsFormsApp4
         {
             
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(FileFetcher.getContent("WindowsFormsApp4.TextFile1.ino"));
+        }
+
+        private void refreshDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string batTest = System.Environment.GetEnvironmentVariable("TEMP") +
+                            @"\initializeproject.bat";
+            using (StreamWriter sw = new StreamWriter(batTest))
+            {
+                // sw.WriteLine(@"mkdir " + folderBrowserDialog1.SelectedPath);
+                sw.WriteLine("cd \"" + folderBrowserDialog1.SelectedPath + "\"");
+                //Initialize the platformio inside of the directory
+                sw.WriteLine("platformio init --board nodemcuv2");
+                //Navigate to lib folder and make the necessary aREST folder
+                sw.WriteLine(@"platformio lib install 31");
+                sw.WriteLine(@"platformio lib install 429");
+                sw.WriteLine(@"platformio lib install 166");
+                //sw.WriteLine("mkdir aREST Adafruit_BME280_Library Adafruit_Sensor-master");
+                //Add a MAIN file.. This may not be necessary as this part is being done in the compile program event
+                //TODO Reduce this redundancy 
+                sw.WriteLine("cd \"" + folderBrowserDialog1.SelectedPath + "\"" + @"\src");
+                sw.WriteLine("abc > main.ino");
+            }
+
+            //TODO Code this dynamically
+            //Start the process of Streamwriter
+            Process.Start(@"cmd.exe ", "/c " + batTest);
+            // Once the process is complete, KILL the process
+            Process.Start(@"cmd.exe ", "/c TASKKILL " + batTest);
+            //File is going to add aREST library to the program in order to build successfully
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 }

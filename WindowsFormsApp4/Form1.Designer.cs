@@ -43,9 +43,11 @@
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,6 +74,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(169, 25);
             this.comboBox1.TabIndex = 1;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
             this.comboBox1.SelectedValueChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
             // 
@@ -140,9 +143,8 @@
             this.checkedListBox1.Items.AddRange(new object[] {
             "Temperature",
             "Humidity",
-            "Air Quality",
-            "Soil Moisture",
-            "Audio"});
+            "Air Pressure",
+            "Altitude"});
             this.checkedListBox1.Location = new System.Drawing.Point(8, 131);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(259, 127);
@@ -168,7 +170,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(572, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(641, 28);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -176,7 +178,8 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
-            this.openDirectoryToolStripMenuItem});
+            this.openDirectoryToolStripMenuItem,
+            this.refreshDirectoryToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
@@ -186,7 +189,7 @@
             this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newDirectoryToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
             this.newToolStripMenuItem.Text = "New ";
             // 
             // newDirectoryToolStripMenuItem
@@ -199,9 +202,16 @@
             // openDirectoryToolStripMenuItem
             // 
             this.openDirectoryToolStripMenuItem.Name = "openDirectoryToolStripMenuItem";
-            this.openDirectoryToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
+            this.openDirectoryToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
             this.openDirectoryToolStripMenuItem.Text = "Current Directory";
             this.openDirectoryToolStripMenuItem.Click += new System.EventHandler(this.openDirectoryToolStripMenuItem_Click);
+            // 
+            // refreshDirectoryToolStripMenuItem
+            // 
+            this.refreshDirectoryToolStripMenuItem.Name = "refreshDirectoryToolStripMenuItem";
+            this.refreshDirectoryToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
+            this.refreshDirectoryToolStripMenuItem.Text = "Refresh Directory";
+            this.refreshDirectoryToolStripMenuItem.Click += new System.EventHandler(this.refreshDirectoryToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -216,7 +226,7 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.GhostWhite;
-            this.ClientSize = new System.Drawing.Size(572, 361);
+            this.ClientSize = new System.Drawing.Size(641, 361);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.button3);
@@ -260,6 +270,8 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.ToolStripMenuItem refreshDirectoryToolStripMenuItem;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 
