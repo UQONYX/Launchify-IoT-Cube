@@ -43,7 +43,7 @@ float temperature;
 void setup() {
 
 	Serial.begin(115200);
-	Serial.println("BME280 test");
+	Serial.println("Launchify IOT Cube!");
 
 	bool status;
 
@@ -51,11 +51,11 @@ void setup() {
 	// (you can also pass in a Wire library object like &Wire2)
 	status = bme.begin();
 	if (!status) {
-		Serial.println("Could not find a valid BME280 sensor, check wiring!");
+		Serial.println("Could not find a valid sensor, check wiring!");
 		while (1);
 	}
 
-	Serial.println("-- Default Test --");
+	Serial.println("Checking WiFi");
 	delayTime = 1000;
 
 	Serial.println();

@@ -51,6 +51,7 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.resetSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,9 +78,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(169, 25);
             this.comboBox1.TabIndex = 1;
-           
             this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
-
             // 
             // label1
             // 
@@ -182,7 +181,8 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openDirectoryToolStripMenuItem,
-            this.refreshDirectoryToolStripMenuItem});
+            this.refreshDirectoryToolStripMenuItem,
+            this.resetSettingsToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
@@ -228,7 +228,6 @@
             this.backgroundWorker1.WorkerSupportsCancellation = true;
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-           
             // 
             // richTextBox1
             // 
@@ -264,6 +263,13 @@
             this.label4.Size = new System.Drawing.Size(134, 23);
             this.label4.TabIndex = 12;
             this.label4.Text = "Select USB Port";
+            // 
+            // resetSettingsToolStripMenuItem
+            // 
+            this.resetSettingsToolStripMenuItem.Name = "resetSettingsToolStripMenuItem";
+            this.resetSettingsToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
+            this.resetSettingsToolStripMenuItem.Text = "Reset Settings";
+            this.resetSettingsToolStripMenuItem.Click += new System.EventHandler(this.resetSettingsToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -324,6 +330,7 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ToolStripMenuItem resetSettingsToolStripMenuItem;
     }
 }
 

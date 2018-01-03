@@ -39,8 +39,29 @@ namespace WindowsFormsApp4
             refreshPorts();
         }
 
+        //Makes sure platformio is installed or up to date
+        private void updatePlatformIO()
+        {
+            string batTest = System.Environment.GetEnvironmentVariable("TEMP") +
+                                @"\batchfile.bat";
+            using (StreamWriter sw = new StreamWriter(batTest))
+            {
+                //Go to the Project's main environment (main directory)
+                sw.WriteLine("pip install -U platformio");
+            }
+            //Kills process
+            var proc = Process.Start(@"cmd.exe ", "/c " + batTest);
+            proc = Process.Start(@"cmd.exe ", "/c TASKKILL " + batTest);
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
+            if(WindowsFormsApp4.Properties.Settings.Default.beginningMessage==false)
+            {
+                Form2 form2 = new Form2();
+                form2.TopMost = true;
+                form2.Show();
+            }
+            updatePlatformIO(); 
             //get and display WIFI to combobox when form loads
             refreshWifi();
             //get and display COM ports when form loads
@@ -57,7 +78,7 @@ namespace WindowsFormsApp4
 
             }
             backgroundWorker1.RunWorkerAsync();
-
+            
         }
         
         //this refreshes the open COM ports and refreshes the combobox2's list
@@ -312,6 +333,12 @@ namespace WindowsFormsApp4
                 s.PortName = comboBox2.Text;
                 s.Open();
             }
+        }
+
+        //Resets all settings back to original downlaod
+        private void resetSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WindowsFormsApp4.Properties.Settings.Default.Reset();
         }
     }
 }

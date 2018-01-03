@@ -46,5 +46,17 @@ namespace WindowsFormsApp4.Properties {
                 this["IsCompiled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool beginningMessage {
+            get {
+                return ((bool)(this["beginningMessage"]));
+            }
+            set {
+                this["beginningMessage"] = value;
+            }
+        }
     }
 }
