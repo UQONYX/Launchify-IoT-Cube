@@ -220,19 +220,26 @@ namespace WindowsFormsApp4
         //This is taken directly from an example online...
         private void refreshWifi()
         {
-            //Code snippet I got from the internet to get WIFI signals
-            WlanClient client = new WlanClient();
-            foreach (WlanClient.WlanInterface wlanInterface in client.Interfaces)
+            try
             {
-                Wlan.WlanAvailableNetwork[] networks = wlanInterface.GetAvailableNetworkList(0);
-                foreach (Wlan.WlanAvailableNetwork network in networks)
+                //Code snippet I got from the internet to get WIFI signals
+                WlanClient client = new WlanClient();
+                foreach (WlanClient.WlanInterface wlanInterface in client.Interfaces)
                 {
-                    Wlan.Dot11Ssid ssid = network.dot11Ssid;
-                    string networkName = Encoding.ASCII.GetString(ssid.SSID);
-                    comboBox1.Items.Add(networkName);
+                    Wlan.WlanAvailableNetwork[] networks = wlanInterface.GetAvailableNetworkList(0);
+                    foreach (Wlan.WlanAvailableNetwork network in networks)
+                    {
+                        Wlan.Dot11Ssid ssid = network.dot11Ssid;
+                        string networkName = Encoding.ASCII.GetString(ssid.SSID);
+                        comboBox1.Items.Add(networkName);
+                    }
                 }
+                comboBox1.SelectedItem = comboBox1.Items[1];
             }
-            comboBox1.SelectedItem = comboBox1.Items[1];
+            catch (System.ComponentModel.Win32Exception)
+            {
+                MessageBox.Show("You need wifi for this to work!");
+            }
         }
 
         //Takes care of NULL point error for CB1
