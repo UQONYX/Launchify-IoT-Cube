@@ -21,8 +21,7 @@ namespace WindowsFormsApp4
     public partial class Form1 : Form
     {
         SerialPort s = new SerialPort();
-
-
+        string sketchWifi = "";
 
         public Form1()
         {
@@ -37,6 +36,7 @@ namespace WindowsFormsApp4
             refreshWifi();
             comboBox2.Items.Clear();
             refreshPorts();
+            manualWifiOff();
         }
 
         //Makes sure platformio is installed or up to date
@@ -146,12 +146,12 @@ namespace WindowsFormsApp4
         private void button3_Click(object sender, EventArgs e)
         {
             //Notify the user where the cube will connect to
-            MessageBox.Show("Cube will connect to WIFI: " + comboBox1.SelectedItem.ToString(), @"Cube Wifi");
+            MessageBox.Show("Cube will connect to WIFI: " + sketchWifi, @"Cube Wifi");
             //File is going to add aREST library to the program in order to build
             //File.Copy(@"C:\Users\Uthma\Downloads\aREST-master\aREST-master\aREST.h", Properties.Settings.Default.ProjectPath + @"\lib\aREST\aREST.h", true);
             String strFile = FileFetcher.getContent("WindowsFormsApp4.TextFile1.ino");
             //Adds the information to the spots necessary
-            strFile = strFile.Replace("yourwifihere", comboBox1.Text);
+            strFile = strFile.Replace("yourwifihere", sketchWifi);
             strFile = strFile.Replace("yourpasswordhere", textBox1.Text);
             File.WriteAllText(Properties.Settings.Default.ProjectPath + @"\src\main.ino", strFile);
             Properties.Settings.Default.IsCompiled = true;
@@ -160,6 +160,7 @@ namespace WindowsFormsApp4
         //makes new directory
         private void newDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //TODO make this into a method/event
             DialogResult result = folderBrowserDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -220,6 +221,7 @@ namespace WindowsFormsApp4
         //This is taken directly from an example online...
         private void refreshWifi()
         {
+            
             try
             {
                 //Code snippet I got from the internet to get WIFI signals
@@ -234,30 +236,50 @@ namespace WindowsFormsApp4
                         comboBox1.Items.Add(networkName);
                     }
                 }
+                
                 comboBox1.SelectedItem = comboBox1.Items[1];
             }
+
             catch (System.ComponentModel.Win32Exception)
             {
-                MessageBox.Show("You need wifi for this to work!");
+                MessageBox.Show("WiFi detection is not available... Please check your WiFi connection or input wifi manually.","WiFi not found");
             }
+            comboBox1.Items.Add("Pick my own WiFi");
         }
 
         //Takes care of NULL point error for CB1
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
-
+            if(comboBox1.Text == "Pick my own WiFi")
+            {
+                manualWifiOn();
+            }
             //Makes sure value of combobox is not null
-            if (String.IsNullOrEmpty(comboBox1.Text))
+            else if (String.IsNullOrEmpty(comboBox1.Text))
             {
                 //Notifies user and reverts to the first wifi on the list
                 MessageBox.Show("You must pick a WIFI to connect to.", "Empty WIFI Selected");
                 comboBox1.SelectedItem = comboBox1.Items[0];
             }
+            else
+            {
+                sketchWifi = comboBox1.Text;
+            }
+
 
         }
         //This method checks if a program is installed.
         // TODO use this for checking if Python and PlatformIO are installed
-
+        private void manualWifiOn()
+        {
+            comboBox1.Visible = false;
+            textBox2.Visible = true;
+        }
+        private void manualWifiOff()
+        {
+            comboBox1.Visible = true;
+            textBox2.Visible = false;
+        }
 
         private void refreshDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -346,6 +368,29 @@ namespace WindowsFormsApp4
         private void resetSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WindowsFormsApp4.Properties.Settings.Default.Reset();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void comboBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.Text == "Pick my own WiFi")
+            {
+                manualWifiOn();
+            }
+            //Makes sure value of combobox is not null
+            else
+            {
+                sketchWifi = comboBox1.Text;
+            }
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            sketchWifi = textBox2.Text;
         }
     }
 }

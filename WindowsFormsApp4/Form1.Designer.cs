@@ -44,6 +44,7 @@
             this.newDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -51,7 +52,7 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.resetSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,7 +63,7 @@
             this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.Location = new System.Drawing.Point(294, 30);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(86, 31);
+            this.button1.Size = new System.Drawing.Size(96, 31);
             this.button1.TabIndex = 0;
             this.button1.Text = "Refresh";
             this.button1.UseVisualStyleBackColor = false;
@@ -78,7 +79,9 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(169, 25);
             this.comboBox1.TabIndex = 1;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
+            this.comboBox1.TextChanged += new System.EventHandler(this.comboBox1_TextChanged);
             // 
             // label1
             // 
@@ -96,7 +99,7 @@
             this.textBox1.Location = new System.Drawing.Point(152, 67);
             this.textBox1.Name = "textBox1";
             this.textBox1.PasswordChar = '*';
-            this.textBox1.Size = new System.Drawing.Size(228, 25);
+            this.textBox1.Size = new System.Drawing.Size(238, 25);
             this.textBox1.TabIndex = 3;
             // 
             // label2
@@ -116,7 +119,7 @@
             this.button2.ForeColor = System.Drawing.Color.White;
             this.button2.Location = new System.Drawing.Point(273, 190);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(107, 68);
+            this.button2.Size = new System.Drawing.Size(117, 68);
             this.button2.TabIndex = 5;
             this.button2.Text = "Upload to Cube";
             this.button2.UseVisualStyleBackColor = false;
@@ -129,7 +132,7 @@
             this.button3.ForeColor = System.Drawing.Color.White;
             this.button3.Location = new System.Drawing.Point(273, 105);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(107, 68);
+            this.button3.Size = new System.Drawing.Size(117, 68);
             this.button3.TabIndex = 6;
             this.button3.Text = "Update WIFI";
             this.button3.UseVisualStyleBackColor = false;
@@ -172,7 +175,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(641, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(669, 28);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -216,6 +219,13 @@
             this.refreshDirectoryToolStripMenuItem.Text = "Refresh Directory";
             this.refreshDirectoryToolStripMenuItem.Click += new System.EventHandler(this.refreshDirectoryToolStripMenuItem_Click);
             // 
+            // resetSettingsToolStripMenuItem
+            // 
+            this.resetSettingsToolStripMenuItem.Name = "resetSettingsToolStripMenuItem";
+            this.resetSettingsToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
+            this.resetSettingsToolStripMenuItem.Text = "Reset Settings";
+            this.resetSettingsToolStripMenuItem.Click += new System.EventHandler(this.resetSettingsToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -234,7 +244,7 @@
             this.richTextBox1.BackColor = System.Drawing.Color.GhostWhite;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextBox1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(386, 66);
+            this.richTextBox1.Location = new System.Drawing.Point(414, 66);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(243, 192);
@@ -248,9 +258,9 @@
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(526, 33);
+            this.comboBox2.Location = new System.Drawing.Point(536, 33);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(103, 25);
+            this.comboBox2.Size = new System.Drawing.Size(121, 25);
             this.comboBox2.TabIndex = 11;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
@@ -258,18 +268,20 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(386, 34);
+            this.label4.Location = new System.Drawing.Point(396, 34);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(134, 23);
             this.label4.TabIndex = 12;
             this.label4.Text = "Select USB Port";
             // 
-            // resetSettingsToolStripMenuItem
+            // textBox2
             // 
-            this.resetSettingsToolStripMenuItem.Name = "resetSettingsToolStripMenuItem";
-            this.resetSettingsToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
-            this.resetSettingsToolStripMenuItem.Text = "Reset Settings";
-            this.resetSettingsToolStripMenuItem.Click += new System.EventHandler(this.resetSettingsToolStripMenuItem_Click);
+            this.textBox2.Location = new System.Drawing.Point(119, 33);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(169, 22);
+            this.textBox2.TabIndex = 13;
+            this.textBox2.Visible = false;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // Form1
             // 
@@ -278,7 +290,8 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.GhostWhite;
-            this.ClientSize = new System.Drawing.Size(641, 361);
+            this.ClientSize = new System.Drawing.Size(669, 361);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.richTextBox1);
@@ -331,6 +344,7 @@
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripMenuItem resetSettingsToolStripMenuItem;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 

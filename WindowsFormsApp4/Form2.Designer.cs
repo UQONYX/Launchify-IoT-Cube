@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -76,8 +77,9 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.richTextBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form2";
-            this.Text = "Form2";
+            this.Text = "Welcome";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
             this.Load += new System.EventHandler(this.Form2_Load);
             this.MouseLeave += new System.EventHandler(this.Form2_MouseLeave);
